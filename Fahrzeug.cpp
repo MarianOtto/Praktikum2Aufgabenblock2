@@ -183,6 +183,12 @@ void Fahrzeug::vNeueStrecke(Weg& weg, double Startzeit)
 	p_pVerhalten = std::make_unique<Parken>(weg, Startzeit);
 	p_dAbschnittStrecke = 0;
 }
+
+void Fahrzeug::vZeichnen(const Weg& weg)
+{
+
+}
+
 //END Other
 
 

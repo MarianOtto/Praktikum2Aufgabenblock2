@@ -8,6 +8,7 @@
 #include "PKW.h"
 #include "Verhalten.h"
 #include "Weg.h"
+#include "SimuClient.h"
 //BEGIN Constructors etc.
 
 PKW::PKW()
@@ -97,6 +98,11 @@ double PKW::dGetVerbrauch() const
 	return p_dVerbrauch;
 }
 
+double PKW::dGetTankinhalt() const
+{
+	return p_dTankinhalt;
+}
+
 //END Getters
 
 //BEGIN Operator Overload
@@ -167,6 +173,10 @@ double PKW::dTanken(double dMenge)
 	return dMenge;
 }
 
+void PKW::vZeichnen(const Weg& weg)
+{
+	bZeichnePKW(p_sName, weg.sGetName(), p_dAbschnittStrecke/weg.dGetLaenge(), dGeschwindigkeit(), p_dTankinhalt);
+}
 
 //END Other
 

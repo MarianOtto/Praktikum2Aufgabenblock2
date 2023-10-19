@@ -16,6 +16,7 @@
 #include "Fahrzeug.h"
 #include "Fahrrad.h"
 #include "PKW.h"
+#include "SimuClient.h"
 
 double dGlobaleZeit = 0.0;
 double dT = 0.001;
@@ -259,26 +260,35 @@ void vAufgabe_5()
 
 void vAufgabe_6()
 {
-	Weg Autobahn("Autobahn", 100, Tempolimit::Autobahn);
-	Weg Landstrasse("Landstrasse", 75, Tempolimit::Landstrasse);
-	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<Fahrzeug>("Fahrzeug1", 110);
-	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<Fahrzeug>("Fahrzeug2", 130);
-	std::unique_ptr<Fahrzeug> Fahrzeug3 = std::make_unique<Fahrzeug>("Fahrzeug3", 120);
-	std::unique_ptr<Fahrzeug> Fahrzeug4 = std::make_unique<Fahrzeug>("Fahrzeug4", 70);
+	bInitialisiereGrafik(1000, 1000);
 
-	Autobahn.vAnnahme(std::move(Fahrzeug1));
-	Autobahn.vAnnahme(std::move(Fahrzeug2), 1);
-	Landstrasse.vAnnahme(std::move(Fahrzeug3));
-	Landstrasse.vAnnahme(std::move(Fahrzeug4), 0.8);
+	int koordinaten[] = {100, 100, 400, 500};
+	Weg WegHin("WegHin", 500, Tempolimit::Landstrasse);
+	Weg WegZur("WegZur", 500, Tempolimit::Landstrasse);
 
-	Autobahn.vKopf();
-	std::cout << std::endl << Autobahn << Landstrasse << std::endl;
+	bZeichneStrasse(WegHin.sGetName(), WegZur.sGetName(), 500, 2, koordinaten);
 
-	for(int t = 0; t <= 3; t++)
+	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<PKW>("Fahrzeug1", 110);
+	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<PKW>("Fahrzeug2", 130);
+	std::unique_ptr<Fahrzeug> Fahrzeug3 = std::make_unique<PKW>("Fahrzeug3", 120);
+	std::unique_ptr<Fahrzeug> Fahrzeug4 = std::make_unique<PKW>("Fahrzeug4", 70);
+
+	WegHin.vAnnahme(std::move(Fahrzeug1));
+	WegHin.vAnnahme(std::move(Fahrzeug2));
+	WegZur.vAnnahme(std::move(Fahrzeug3));
+	WegZur.vAnnahme(std::move(Fahrzeug4), 1.5);
+
+	for(int t = 0; t <= 50; t++)
 	{
-		dGlobaleZeit += 0.5;
-		Autobahn.vSimulieren();
-		Landstrasse.vSimulieren();
+		dGlobaleZeit += 0.1;
+		vSetzeZeit(dGlobaleZeit);
+
+		WegHin.vSimulieren();
+		WegZur.vSimulieren();
+
+		WegHin.vZeichneFahrzeuge();
+		WegZur.vZeichneFahrzeuge();
+		vSleep(50);
 	}
 }
 int main(void)

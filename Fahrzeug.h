@@ -34,7 +34,6 @@ public:
 	Fahrzeug(std::string sName);
 	Fahrzeug(std::string sName, double maxGeschwindigkeit);
 	virtual ~Fahrzeug();
-	Fahrzeug(const Fahrzeug&) = delete;
 
 	//Getter
 	double dGetGesamtStrecke() const;
@@ -56,6 +55,7 @@ public:
 	virtual double dGeschwindigkeit();
 	virtual void vNeueStrecke(Weg& weg);
 	virtual void vNeueStrecke(Weg& weg, double Startzeit);
+	virtual void vZeichnen(const Weg& weg);
 };
 
 

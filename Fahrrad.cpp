@@ -6,7 +6,8 @@
  */
 
 #include "Fahrrad.h"
-
+#include "Weg.h"
+#include "SimuClient.h"
 //BEGIN Constructors etc.
 
 Fahrrad::Fahrrad()
@@ -51,6 +52,11 @@ double Fahrrad::dGeschwindigkeit()
 		p_dGeschwindigkeit = 12;
 	}
 	return p_dGeschwindigkeit;
+}
+
+void Fahrrad::vZeichnen(const Weg& weg)
+{
+	bZeichneFahrrad(p_sName, weg.sGetName(), p_dAbschnittStrecke/weg.dGetLaenge(), dGeschwindigkeit());
 }
 
 //END Other

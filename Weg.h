@@ -9,8 +9,9 @@
 #define WEG_H_
 
 #include "Simulationsobjekt.h"
-class Fahrzeug;
 #include "Tempolimit.h"
+
+class Fahrzeug;
 
 class Weg: public Simulationsobjekt
 {
@@ -41,6 +42,7 @@ public:
 	void vAusgeben() const override;
 	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug);
 	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit);
+	void vZeichneFahrzeuge();
 };
 
 #endif /* WEG_H_ */

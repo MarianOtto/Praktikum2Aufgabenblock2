@@ -8,6 +8,7 @@
 #include "Weg.h"
 #include "Fahrzeug.h"
 #include "Fahrausnahme.h"
+#include "SimuClient.h"
 
 //BEGIN Constructors ec=tc.
 Weg::Weg()
@@ -123,4 +124,11 @@ void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit)
 	Fahrzeuge.push_front(std::move(Fahrzeug));
 }
 
+void Weg::vZeichneFahrzeuge()
+{
+	for(auto &Fahrzeug : Fahrzeuge)
+	{
+		Fahrzeug->vZeichnen(*this);
+	}
+}
 //END Other

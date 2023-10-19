@@ -7,6 +7,8 @@
 
 #include "Simulationsobjekt.h"
 
+class SimuClient;
+
 int Simulationsobjekt::p_iMaxID = 0;
 
 //BEGIN Constructors etc.

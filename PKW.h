@@ -31,6 +31,7 @@ public:
 
 	double dGetTankvolumen() const;
 	double dGetVerbrauch() const;
+	double dGetTankinhalt() const;
 
 	//Operator Overload
 	void operator=(const Fahrzeug& Fahrzeug);
@@ -41,6 +42,7 @@ public:
 	void vAusgeben() const override;
 	void vSimulieren() override;
 	double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
+	void vZeichnen(const Weg& weg) override;
 
 };
 
