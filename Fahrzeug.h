@@ -9,6 +9,8 @@
 
 #include "Simulationsobjekt.h"
 class Verhalten;
+class Fahren;
+//class Parken;
 class Weg;
 
 
@@ -53,6 +55,7 @@ public:
 	virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
 	virtual double dGeschwindigkeit();
 	virtual void vNeueStrecke(Weg& weg);
+	virtual void vNeueStrecke(Weg& weg, double Startzeit);
 };
 
 

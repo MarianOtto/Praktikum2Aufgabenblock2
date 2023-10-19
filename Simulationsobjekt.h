@@ -61,4 +61,6 @@ public:
 	bool EpsilonEquals(double dNum1, double dNum2);
 };
 
+std::ostream& operator << (std::ostream& ostr, const Simulationsobjekt& objekt );
+
 #endif /* SIMULATIONSOBJEKT_H_ */

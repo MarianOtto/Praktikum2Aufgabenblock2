@@ -34,18 +34,6 @@ bool bEpsilonEquals(double dNum1, double dNum2)
 	return false;
 }
 
-std::ostream& operator<<(std::ostream& ostr, const Simulationsobjekt& Simulationsobjekt)
-{
-	Simulationsobjekt.vAusgeben();
-	return ostr;
-}
-
-std::ostream& operator<<(std::ostream& ostr, const Simulationsobjekt* Simulationsobjekt)
-{
-	Simulationsobjekt->vAusgeben();
-	return ostr;
-}
-
 void vAufgabe_1()
 {
 	std::cout << "\n\n Aufgabe 1 \n\n";
@@ -68,13 +56,13 @@ void vAufgabe_1()
 	std::vector<std::unique_ptr<Fahrzeug>> vector_unique;
 	vector_unique.push_back(std::move(unique1));
 	vector_unique.push_back(std::move(unique2));
-	vector_unique.clear();
+	unique2->vAusgeben();
 	std::vector<std::shared_ptr<Fahrzeug>> vector_shared;
 	vector_shared.push_back(shared1);
 	vector_shared.push_back(shared2);
 	vector_shared.push_back(std::move(shared2_1));
 	std::cout << "Count after vector " << shared2.use_count() << std::endl;
-	vector_shared.clear();
+	shared2->vAusgeben();
 }
 
 void vAufgabe_1a()
@@ -252,19 +240,46 @@ void vAufgabe_4()
 void vAufgabe_5()
 {
 	dGlobaleZeit += 1;
-	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<Fahrzeug>("Fahrzeug1", 120);
-	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<Fahrzeug>("Fahrzeug2", 100);
+	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<Fahrzeug>("Fahrzeug1", 100);
+	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<Fahrzeug>("Fahrzeug2", 120);
 	std::unique_ptr<Fahrzeug> Fahrzeug3 = std::make_unique<Fahrzeug>("Fahrzeug3", 50);
-	Weg Weg("Weg1", 100, Tempolimit::Autobahn);
+	Weg Weg("Weg1", 100, Tempolimit::Landstrasse);
 	Weg.vAnnahme(std::move(Fahrzeug1));
 	Weg.vAnnahme(std::move(Fahrzeug2));
-	Weg.vAnnahme(std::move(Fahrzeug3));
+	Weg.vAnnahme(std::move(Fahrzeug3), 0.8);
 	Weg.vKopf();
 	std::cout << std::endl << Weg << std::endl;
 	Weg.vSimulieren();
 	Weg.vKopf();
 	std::cout << std::endl << Weg << std::endl;
+	Weg.lGetFahrzeuge().back()->vKopf();
+	std::cout << std::endl;
+	Weg.lGetFahrzeuge().back()->vAusgeben();
+}
 
+void vAufgabe_6()
+{
+	Weg Autobahn("Autobahn", 100, Tempolimit::Autobahn);
+	Weg Landstrasse("Landstrasse", 75, Tempolimit::Landstrasse);
+	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<Fahrzeug>("Fahrzeug1", 110);
+	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<Fahrzeug>("Fahrzeug2", 130);
+	std::unique_ptr<Fahrzeug> Fahrzeug3 = std::make_unique<Fahrzeug>("Fahrzeug3", 120);
+	std::unique_ptr<Fahrzeug> Fahrzeug4 = std::make_unique<Fahrzeug>("Fahrzeug4", 70);
+
+	Autobahn.vAnnahme(std::move(Fahrzeug1));
+	Autobahn.vAnnahme(std::move(Fahrzeug2), 1);
+	Landstrasse.vAnnahme(std::move(Fahrzeug3));
+	Landstrasse.vAnnahme(std::move(Fahrzeug4), 0.8);
+
+	Autobahn.vKopf();
+	std::cout << std::endl << Autobahn << Landstrasse << std::endl;
+
+	for(int t = 0; t <= 3; t++)
+	{
+		dGlobaleZeit += 0.5;
+		Autobahn.vSimulieren();
+		Landstrasse.vSimulieren();
+	}
 }
 int main(void)
 {
@@ -274,12 +289,6 @@ int main(void)
 	//vAufgabe_2();
 	//vAufgabe_3();
 	//vAufgabe_4();
-	vAufgabe_5();
-//	Weg weg("Weg", 10, Tempolimit::Autobahn);
-//	PKW pkw("PKW", 10, 50, 4.5);
-//	pkw.vNeueStrecke(weg);
-//	dGlobaleZeit += 1;
-//	pkw.vSimulieren();
-//	pkw.vKopf();
-//	std::cout << std::endl << pkw;
+	//vAufgabe_5();
+	vAufgabe_6();
 }

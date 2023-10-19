@@ -26,7 +26,7 @@ double Fahren::dStrecke(Fahrzeug* aFzg, double dZeitIntervall)
 	double dGeschwindigkeit = p_pWeg.dGetTempolimit() > aFzg->dGetMaxGeschwindigkeit() ? aFzg->dGetMaxGeschwindigkeit() : p_pWeg.dGetTempolimit();
 	for(int t = 1; t <= dZeitIntervall/dT; t++)
 	{
-		if(dWeg > p_pWeg.dGetLaenge())
+		if(dWeg > p_pWeg.dGetLaenge() - aFzg->dGetAbschnittstrecke())
 		{
 			throw Streckenende(*aFzg, p_pWeg);
 			goto exit;

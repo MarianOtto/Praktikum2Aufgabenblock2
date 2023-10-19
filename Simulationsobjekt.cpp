@@ -82,6 +82,7 @@ bool Simulationsobjekt::operator==(const Simulationsobjekt& Simulationsobjekt)
 	}
 	return false;
 }
+
 //END Operator Overload
 
 //BEGIN Other
@@ -105,7 +106,7 @@ void Simulationsobjekt::vAusgeben() const
 
 bool Simulationsobjekt::EpsilonEquals(double dNum1, double dNum2)
 {
-	if(abs(dNum1 - dNum2) < std::pow(10,-25.0))
+	if(abs(dNum1 - dNum2) < std::pow(10,-6.0))
 	{
 		return true;
 	}
@@ -113,3 +114,10 @@ bool Simulationsobjekt::EpsilonEquals(double dNum1, double dNum2)
 }
 
 //END Other
+
+std::ostream& operator << (std::ostream& ostr, const Simulationsobjekt& objekt)
+{
+	objekt.vAusgeben();
+	ostr<<"\n";
+	return ostr;
+}

@@ -23,13 +23,15 @@ class Weg;
 
 class Verhalten
 {
-private:
+protected:
 	Weg& p_pWeg;
 public:
 	Verhalten(Weg& WegPtr);
 	virtual ~Verhalten();
 
-	double dStrecke(Fahrzeug* aFzg, double dZeitIntervall);
+	virtual Weg& pGetWeg() const;
+
+	virtual double dStrecke(Fahrzeug* aFzg, double dZeitIntervall) = 0;
 };
 
 #endif /* VERHALTEN_H_ */

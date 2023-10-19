@@ -20,25 +20,9 @@ Verhalten::~Verhalten()
 	// TODO Auto-generated destructor stub
 }
 
-
-
-double Verhalten::dStrecke(Fahrzeug* aFzg, double dZeitIntervall)
+Weg& Verhalten::pGetWeg() const
 {
-	double dWeg = 0;
-	double dGeschwindigkeit = p_pWeg.dGetTempolimit() > aFzg->dGetMaxGeschwindigkeit() ? aFzg->dGetMaxGeschwindigkeit() : p_pWeg.dGetTempolimit();
-	for(int t = 1; t <= dZeitIntervall/dT; t++)
-	{
-		if(dWeg > p_pWeg.dGetLaenge())
-		{
-			std::cout <<std::endl << aFzg->sGetName() << " hat das Wegende erreicht." << std::endl;
-			goto exit;
-		}
-		dWeg += dT * dGeschwindigkeit;
-	}
-exit:
-	return dWeg;
+	return p_pWeg;
 }
-
-
 
 

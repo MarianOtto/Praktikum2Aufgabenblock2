@@ -7,6 +7,7 @@
 
 #include "PKW.h"
 #include "Verhalten.h"
+#include "Weg.h"
 //BEGIN Constructors etc.
 
 PKW::PKW()
@@ -141,6 +142,7 @@ void PKW::vSimulieren()
 		if(!EpsilonEquals(p_dTankinhalt, 0))
 		{
 		double dDeltaT = dGlobaleZeit - p_dZeit;
+		p_dGeschwindigkeit = dGeschwindigkeit();
 		double dDeltaS = p_pVerhalten->dStrecke(this, dDeltaT);
 		p_dGesamtStrecke += dDeltaS;
 		p_dAbschnittStrecke += dDeltaS;
@@ -164,6 +166,7 @@ double PKW::dTanken(double dMenge)
 	std::cout << "\n\nEs wurden " << dMenge << " Liter getankt!";
 	return dMenge;
 }
+
 
 //END Other
 

@@ -29,6 +29,7 @@ public:
 	//Getters
 	double dGetTempolimit() const;
 	double dGetLaenge() const;
+	std::list<std::unique_ptr<Fahrzeug>>& lGetFahrzeuge();
 
 	//Setters
 
@@ -39,6 +40,7 @@ public:
 	void vKopf() const override;
 	void vAusgeben() const override;
 	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug);
+	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit);
 };
 
 #endif /* WEG_H_ */

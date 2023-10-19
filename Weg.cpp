@@ -7,6 +7,7 @@
 
 #include "Weg.h"
 #include "Fahrzeug.h"
+#include "Fahrausnahme.h"
 
 //BEGIN Constructors ec=tc.
 Weg::Weg()
@@ -55,14 +56,15 @@ double Weg::dGetLaenge() const
 {
 	return p_dLaenge;
 }
+
+std::list<std::unique_ptr<Fahrzeug>>& Weg::lGetFahrzeuge()
+{
+	return Fahrzeuge;
+}
+
 //END Getters
 
 //BEGINN Setters
-
-void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug)
-{	Fahrzeug->vNeueStrecke(*this);
-	Fahrzeuge.push_back(std::move(Fahrzeug));
-}
 
 //END Setters
 
@@ -72,7 +74,15 @@ void Weg::vSimulieren()
 {
 	for(auto &Fahrzeug : Fahrzeuge)
 	{
-		Fahrzeug->vSimulieren();
+		try
+		{
+			Fahrzeug->vSimulieren();
+		}
+		catch (Fahrausnahme& ausnahme)
+		{
+			ausnahme.vBearbeiten();
+		}
+		//Fahrzeug->vSimulieren();
 	}
 }
 
@@ -99,6 +109,18 @@ void Weg::vAusgeben() const
 		std::cout << Fahrzeug->sGetName() << " | ";
 	}
 	std::cout << ")";
+}
+
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug)
+{
+	Fahrzeug->vNeueStrecke(*this);
+	Fahrzeuge.push_back(std::move(Fahrzeug));
+}
+
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit)
+{
+	Fahrzeug->vNeueStrecke(*this, Startzeit);
+	Fahrzeuge.push_front(std::move(Fahrzeug));
 }
 
 //END Other

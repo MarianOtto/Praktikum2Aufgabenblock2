@@ -8,7 +8,10 @@
 
 
 #include "Fahrzeug.h"
+#include "Weg.h"
 #include "Verhalten.h"
+#include "Fahren.h"
+#include "Parken.h"
 
 //BEGIN Constructors
 
@@ -160,16 +163,26 @@ double Fahrzeug::dTanken(double dMenge)
 
 double Fahrzeug::dGeschwindigkeit()
 {
+	double dGeschwindigkeit = p_dMaxGeschwindigkeit;
+	if(p_pVerhalten->pGetWeg().dGetTempolimit() < p_dMaxGeschwindigkeit)
+		{
+			dGeschwindigkeit = p_pVerhalten->pGetWeg().dGetTempolimit();
+		}
 
-	return p_dMaxGeschwindigkeit;
+	return dGeschwindigkeit;
 }
 
 void Fahrzeug::vNeueStrecke(Weg& weg)
 {
-	p_pVerhalten = std::make_unique<Verhalten>(weg);
+	p_pVerhalten = std::make_unique<Fahren>(weg);
 	p_dAbschnittStrecke = 0;
 }
 
+void Fahrzeug::vNeueStrecke(Weg& weg, double Startzeit)
+{
+	p_pVerhalten = std::make_unique<Parken>(weg, Startzeit);
+	p_dAbschnittStrecke = 0;
+}
 //END Other
 
 
