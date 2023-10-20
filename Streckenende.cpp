@@ -23,5 +23,5 @@ Streckenende::~Streckenende()
 
 void Streckenende::vBearbeiten()
 {
-	std::cout << p_pFahrzeug.sGetName() << " auf " << p_pWeg.sGetName() << " hat das Streckenende erreicht! \n";
+	p_pWeg.pAbgabe(p_pFahrzeug);
 }

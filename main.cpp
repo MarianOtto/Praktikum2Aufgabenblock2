@@ -17,6 +17,7 @@
 #include "Fahrrad.h"
 #include "PKW.h"
 #include "SimuClient.h"
+#include "vertagt_liste.h"
 
 double dGlobaleZeit = 0.0;
 double dT = 0.001;
@@ -252,10 +253,6 @@ void vAufgabe_5()
 	std::cout << std::endl << Weg << std::endl;
 	Weg.vSimulieren();
 	Weg.vKopf();
-	std::cout << std::endl << Weg << std::endl;
-	Weg.lGetFahrzeuge().back()->vKopf();
-	std::cout << std::endl;
-	Weg.lGetFahrzeuge().back()->vAusgeben();
 }
 
 void vAufgabe_6()
@@ -263,20 +260,20 @@ void vAufgabe_6()
 	bInitialisiereGrafik(1000, 1000);
 
 	int koordinaten[] = {100, 100, 400, 500};
-	Weg WegHin("WegHin", 500, Tempolimit::Landstrasse);
+	Weg WegHin("WegHin", 500, Tempolimit::Autobahn);
 	Weg WegZur("WegZur", 500, Tempolimit::Landstrasse);
 
 	bZeichneStrasse(WegHin.sGetName(), WegZur.sGetName(), 500, 2, koordinaten);
 
 	std::unique_ptr<Fahrzeug> Fahrzeug1 = std::make_unique<PKW>("Fahrzeug1", 110);
-	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<PKW>("Fahrzeug2", 130);
+	std::unique_ptr<Fahrzeug> Fahrzeug2 = std::make_unique<PKW>("Fahrzeug2", 250);
 	std::unique_ptr<Fahrzeug> Fahrzeug3 = std::make_unique<PKW>("Fahrzeug3", 120);
 	std::unique_ptr<Fahrzeug> Fahrzeug4 = std::make_unique<PKW>("Fahrzeug4", 70);
 
 	WegHin.vAnnahme(std::move(Fahrzeug1));
 	WegHin.vAnnahme(std::move(Fahrzeug2));
 	WegZur.vAnnahme(std::move(Fahrzeug3));
-	WegZur.vAnnahme(std::move(Fahrzeug4), 1.5);
+	WegZur.vAnnahme(std::move(Fahrzeug4), 1);
 
 	for(int t = 0; t <= 50; t++)
 	{
@@ -288,9 +285,70 @@ void vAufgabe_6()
 
 		WegHin.vZeichneFahrzeuge();
 		WegZur.vZeichneFahrzeuge();
-		vSleep(50);
+		vSleep(100);
 	}
 }
+
+void vAufgabe_6a()
+{
+	//Liste erzeugen
+	vertagt::VListe<int> Liste;
+	for(int i = 0; i < 10; i++)
+	{
+		Liste.push_back(rand() % 10);
+	}
+	Liste.vAktualisieren();
+
+	//Liste ausgeben
+	std::cout << "Liste ausgeben: " << std::endl;
+	for(auto elem : Liste)
+	{
+		std::cout << elem << " ";
+	}
+
+	//elem > 5 loeschen
+
+	for(auto elem = Liste.begin(); elem != Liste.end(); elem++)
+	{
+		if(*elem > 5)
+		{
+			Liste.erase(elem);
+		}
+	}
+
+	std::cout << std::endl << "Liste ausgeben vor aktualisieren: " << std::endl;
+	for(auto elem : Liste)
+	{
+		std::cout << elem << " ";
+	}
+
+	Liste.vAktualisieren();
+
+	std::cout << std::endl << "Liste ausgeben nach aktualisieren: " << std::endl;
+	for(auto elem : Liste)
+	{
+		std::cout << elem << " ";
+	}
+
+	for(int i = 0; i < 2; i++)
+	{
+		Liste.push_front(rand() % 10);
+	}
+
+	for(int i = 0; i < 2; i++)
+	{
+		Liste.push_back(rand() % 10);
+	}
+
+	Liste.vAktualisieren();
+
+	std::cout << std::endl << "Liste ausgeben nach Hinzufuegen: " << std::endl;
+	for(auto elem : Liste)
+	{
+		std::cout << elem << " ";
+	}
+}
+
 int main(void)
 {
 	std::srand(std::time(NULL));//
@@ -300,5 +358,7 @@ int main(void)
 	//vAufgabe_3();
 	//vAufgabe_4();
 	//vAufgabe_5();
-	vAufgabe_6();
+	//vAufgabe_6();
+	std::srand(0);
+	vAufgabe_6a();
 }

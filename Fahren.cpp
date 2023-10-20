@@ -9,6 +9,7 @@
 #include "Weg.h"
 #include "Fahrzeug.h"
 #include "Streckenende.h"
+#include <algorithm>
 
 Fahren::Fahren(Weg& WegPtr)
 :Verhalten::Verhalten(WegPtr)

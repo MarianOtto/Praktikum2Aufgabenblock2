@@ -41,7 +41,6 @@ Weg::Weg(std::string sName, double dLaenge, Tempolimit eTempolimit)
 
 Weg::~Weg()
 {
-	// TODO Auto-generated destructor stub
 }
 
 //END Constructors etc.
@@ -58,7 +57,7 @@ double Weg::dGetLaenge() const
 	return p_dLaenge;
 }
 
-std::list<std::unique_ptr<Fahrzeug>>& Weg::lGetFahrzeuge()
+vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::lGetFahrzeuge()
 {
 	return Fahrzeuge;
 }
@@ -83,8 +82,8 @@ void Weg::vSimulieren()
 		{
 			ausnahme.vBearbeiten();
 		}
-		//Fahrzeug->vSimulieren();
 	}
+	Fahrzeuge.vAktualisieren();
 }
 
 void Weg::vKopf() const
@@ -122,6 +121,21 @@ void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit)
 {
 	Fahrzeug->vNeueStrecke(*this, Startzeit);
 	Fahrzeuge.push_front(std::move(Fahrzeug));
+}
+
+std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug)
+{
+	auto it = std::find_if(Fahrzeuge.begin(), Fahrzeuge.end(), [&](std::unique_ptr<Fahrzeug>& Fzg) {return Fzg.get() == &fahrzeug; });
+	std::unique_ptr<Fahrzeug> lokal = std::move(*it);
+	if (it != Fahrzeuge.end())
+	{
+		Fahrzeuge.erase(it);
+		return lokal;
+	}
+	else
+	{
+		return std::make_unique<Fahrzeug>(nullptr);
+	}
 }
 
 void Weg::vZeichneFahrzeuge()

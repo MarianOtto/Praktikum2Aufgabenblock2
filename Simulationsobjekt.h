@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <memory>
-#include <list>
+#include <algorithm>
 
 extern double dGlobaleZeit;
 extern double dT;

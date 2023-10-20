@@ -10,16 +10,16 @@
 
 #include "Simulationsobjekt.h"
 #include "Tempolimit.h"
+#include "vertagt_liste.h"
 
 class Fahrzeug;
 
 class Weg: public Simulationsobjekt
 {
-
 private:
 	double p_dLaenge;
 	Tempolimit p_eTempolimit;
-	std::list<std::unique_ptr<Fahrzeug>> Fahrzeuge;
+	vertagt::VListe<std::unique_ptr<Fahrzeug>> Fahrzeuge;
 
 public:
 	//Constructors etc.
@@ -30,7 +30,7 @@ public:
 	//Getters
 	double dGetTempolimit() const;
 	double dGetLaenge() const;
-	std::list<std::unique_ptr<Fahrzeug>>& lGetFahrzeuge();
+	vertagt::VListe<std::unique_ptr<Fahrzeug>>& lGetFahrzeuge();
 
 	//Setters
 
@@ -42,6 +42,7 @@ public:
 	void vAusgeben() const override;
 	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug);
 	void vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit);
+	std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
 	void vZeichneFahrzeuge();
 };
 
