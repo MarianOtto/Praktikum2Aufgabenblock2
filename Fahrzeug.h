@@ -9,16 +9,11 @@
 
 #include "Simulationsobjekt.h"
 class Verhalten;
-class Fahren;
-//class Parken;
 class Weg;
 
 
 class Fahrzeug: public Simulationsobjekt
 {
-private:
-	static int p_iMaxID; //
-
 protected:
 	double p_dMaxGeschwindigkeit;
 	double p_dGesamtStrecke;
@@ -41,16 +36,16 @@ public:
 	double dGetAbschnittstrecke() const;
 
 	//Setters
-	void setdMaxGeschwindigkeit(double MaxGeschwindigkeit);
+	void setMaxGeschwindigkeit(double MaxGeschwindigkeit);
 
 	//Operator Overload
 	virtual bool operator<(const Fahrzeug& Fahrzeug);
 	void operator=(const Fahrzeug& Fahrzeug);
 
 	//Other
-	virtual void vKopf() const;
-	virtual void vAusgeben() const;
-	virtual void vSimulieren();
+	virtual void vKopf() const override;
+	virtual void vAusgeben() const override;
+	virtual void vSimulieren() override;
 	virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
 	virtual double dGeschwindigkeit();
 	virtual void vNeueStrecke(Weg& weg);

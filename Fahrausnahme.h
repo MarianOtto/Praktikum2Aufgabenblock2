@@ -19,6 +19,7 @@ public:
 	Fahrausnahme(Fahrzeug& fahrzeug, Weg& weg);
 	virtual ~Fahrausnahme();
 	virtual void vBearbeiten() = 0;
+protected:
 	Fahrzeug& p_pFahrzeug;
 	Weg& p_pWeg;
 };

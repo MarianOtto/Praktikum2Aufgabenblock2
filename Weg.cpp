@@ -39,6 +39,22 @@ Weg::Weg(std::string sName, double dLaenge, Tempolimit eTempolimit)
 #endif
 }
 
+Weg::Weg(std::string sName, double dLaenge, Tempolimit eTempolimit, std::weak_ptr<Kreuzung> zielkreuzung)
+:Simulationsobjekt::Simulationsobjekt(sName),
+ p_dLaenge(dLaenge),
+ p_eTempolimit(eTempolimit),
+ p_pZielkreuzung(zielkreuzung)
+{
+#ifdef DEBUG
+	std::cout <<
+			"created | name: " 	<< this->	p_sName <<
+			" | ID: " 			<< this-> 	p_iID <<
+			" | Tempolimit: " 	<< this->getTempolimit() <<
+			std::endl;
+#endif
+}
+
+
 Weg::~Weg()
 {
 }
@@ -57,14 +73,34 @@ double Weg::dGetLaenge() const
 	return p_dLaenge;
 }
 
-vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::lGetFahrzeuge()
+vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::pGetFahrzeuge()
 {
-	return Fahrzeuge;
+	return p_pFahrzeuge;
+}
+
+std::shared_ptr<Kreuzung> Weg::pGetZielkreuzung()
+{
+	std::shared_ptr<Kreuzung> tempPtr = p_pZielkreuzung.lock();
+	return tempPtr;
+}
+
+
+std::shared_ptr<Weg> Weg::pGetRueckweg()
+{
+	std::shared_ptr<Weg> tempPtr = p_pRueckWeg.lock();
+	return tempPtr;
 }
 
 //END Getters
 
 //BEGINN Setters
+
+
+void Weg::setRueckweg(std::shared_ptr<Weg> rueckweg)
+{
+	std::weak_ptr<Weg> tempRueckweg = rueckweg;
+	p_pRueckWeg = tempRueckweg;
+}
 
 //END Setters
 
@@ -72,10 +108,11 @@ vertagt::VListe<std::unique_ptr<Fahrzeug>>& Weg::lGetFahrzeuge()
 
 void Weg::vSimulieren()
 {
-	for(auto &Fahrzeug : Fahrzeuge)
+	for(auto &Fahrzeug : p_pFahrzeuge)
 	{
 		try
 		{
+			vZeichneFahrzeuge();
 			Fahrzeug->vSimulieren();
 		}
 		catch (Fahrausnahme& ausnahme)
@@ -83,7 +120,7 @@ void Weg::vSimulieren()
 			ausnahme.vBearbeiten();
 		}
 	}
-	Fahrzeuge.vAktualisieren();
+	p_pFahrzeuge.vAktualisieren();
 }
 
 void Weg::vKopf() const
@@ -104,7 +141,7 @@ void Weg::vAusgeben() const
 		std::setw(10) << p_dLaenge <<
 		std::setw(20) << ((dGetTempolimit() < (double)Tempolimit::Autobahn) ? std::to_string(dGetTempolimit()) : "Unbegrenzt") <<
 		std::setw(3)<< " (";
-	for(auto &Fahrzeug : Fahrzeuge)
+	for(auto &Fahrzeug : p_pFahrzeuge)
 	{
 		std::cout << Fahrzeug->sGetName() << " | ";
 	}
@@ -114,33 +151,35 @@ void Weg::vAusgeben() const
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug)
 {
 	Fahrzeug->vNeueStrecke(*this);
-	Fahrzeuge.push_back(std::move(Fahrzeug));
+	p_pFahrzeuge.push_back(std::move(Fahrzeug));
 }
 
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> Fahrzeug, double Startzeit)
 {
 	Fahrzeug->vNeueStrecke(*this, Startzeit);
-	Fahrzeuge.push_front(std::move(Fahrzeug));
+	p_pFahrzeuge.push_front(std::move(Fahrzeug));
+	p_pFahrzeuge.vAktualisieren();
 }
 
 std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug& fahrzeug)
 {
-	auto it = std::find_if(Fahrzeuge.begin(), Fahrzeuge.end(), [&](std::unique_ptr<Fahrzeug>& Fzg) {return Fzg.get() == &fahrzeug; });
+	auto it = std::find_if(p_pFahrzeuge.begin(), p_pFahrzeuge.end(), [&](std::unique_ptr<Fahrzeug>& Fzg) {return Fzg.get() == &fahrzeug; });
 	std::unique_ptr<Fahrzeug> lokal = std::move(*it);
-	if (it != Fahrzeuge.end())
+	if (it != p_pFahrzeuge.end())
 	{
-		Fahrzeuge.erase(it);
+		p_pFahrzeuge.erase(it);
 		return lokal;
 	}
 	else
 	{
 		return std::make_unique<Fahrzeug>(nullptr);
 	}
+
 }
 
-void Weg::vZeichneFahrzeuge()
+void Weg::vZeichneFahrzeuge() const
 {
-	for(auto &Fahrzeug : Fahrzeuge)
+	for(auto &Fahrzeug : p_pFahrzeuge)
 	{
 		Fahrzeug->vZeichnen(*this);
 	}

@@ -21,10 +21,8 @@ public:
 	Fahrrad(const Fahrrad&) = delete;
 
 	//Other
-	void vKopf() const;
-	void vAusgeben() const override;
 	double dGeschwindigkeit() override;
-	void vZeichnen(const Weg& weg) override;
+	void vZeichnen(const Weg& weg);
 };
 
 #endif /* FAHRRAD_H_ */

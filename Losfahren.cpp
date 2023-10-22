@@ -23,6 +23,6 @@ Losfahren::~Losfahren()
 
 void Losfahren::vBearbeiten()
 {
-	std::cout << p_pFahrzeug.sGetName() << " auf " << p_pWeg.sGetName() << " ist losgefahren! \n";
 	p_pWeg.vAnnahme(p_pWeg.pAbgabe(p_pFahrzeug));
+	p_pWeg.pGetFahrzeuge().vAktualisieren();
 }

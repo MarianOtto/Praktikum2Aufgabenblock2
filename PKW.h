@@ -42,7 +42,7 @@ public:
 	void vAusgeben() const override;
 	void vSimulieren() override;
 	double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
-	void vZeichnen(const Weg& weg) override;
+	void vZeichnen(const Weg& weg);
 
 };
 

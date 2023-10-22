@@ -92,7 +92,7 @@ double Fahrzeug::dGetAbschnittstrecke() const
 
 //BEGIN Setters
 
-void Fahrzeug::setdMaxGeschwindigkeit(double MaxGeschwindigkeit)
+void Fahrzeug::setMaxGeschwindigkeit(double MaxGeschwindigkeit)
 {
 	p_dMaxGeschwindigkeit = MaxGeschwindigkeit;
 }

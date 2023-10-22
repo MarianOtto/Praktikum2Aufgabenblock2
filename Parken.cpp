@@ -26,7 +26,7 @@ double Parken::dStrecke(Fahrzeug* aFzg, double dZeitIntervall)
 {
 	for(int t = 1; t <= dZeitIntervall/dT; t++)
 	{
-		if(aFzg->EpsilonEquals(p_dStartzeit,0))
+		if(aFzg->bEquals(p_dStartzeit,0))
 		{
 			throw Losfahren(*aFzg, p_pWeg);
 			goto exit;

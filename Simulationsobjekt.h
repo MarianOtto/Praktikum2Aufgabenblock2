@@ -47,7 +47,7 @@ public:
 
 
 	//Setters
-	void setsName(std::string sName);
+	void setName(std::string sName);
 
 	//Operator Overload
 
@@ -58,7 +58,7 @@ public:
 	virtual void vKopf() const;
 	virtual void vAusgeben() const;
 	virtual void vSimulieren() = 0;
-	bool EpsilonEquals(double dNum1, double dNum2);
+	bool bEquals(double dNum1, double dNum2);
 };
 
 std::ostream& operator << (std::ostream& ostr, const Simulationsobjekt& objekt );

@@ -61,7 +61,7 @@ double Simulationsobjekt::dGetZeit() const
 //END Getters
 
 //BEGIN Setters
-void Simulationsobjekt::setsName(std::string sName)
+void Simulationsobjekt::setName(std::string sName)
 {
 	p_sName = sName;
 }
@@ -106,7 +106,7 @@ void Simulationsobjekt::vAusgeben() const
 		std::setw(15) << p_sName;
 }
 
-bool Simulationsobjekt::EpsilonEquals(double dNum1, double dNum2)
+bool Simulationsobjekt::bEquals(double dNum1, double dNum2)
 {
 	if(abs(dNum1 - dNum2) < std::pow(10,-6.0))
 	{
@@ -120,6 +120,5 @@ bool Simulationsobjekt::EpsilonEquals(double dNum1, double dNum2)
 std::ostream& operator << (std::ostream& ostr, const Simulationsobjekt& objekt)
 {
 	objekt.vAusgeben();
-	ostr<<"\n";
 	return ostr;
 }

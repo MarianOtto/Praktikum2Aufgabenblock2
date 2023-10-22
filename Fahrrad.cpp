@@ -33,16 +33,6 @@ Fahrrad::~Fahrrad()
 
 //BEGIN Other
 
-void Fahrrad::vKopf() const
-{
-	Fahrzeug::vKopf();
-}
-
-void Fahrrad::vAusgeben() const
-{
-	Fahrzeug::vAusgeben();
-}
-
 double Fahrrad::dGeschwindigkeit()
 {
 	uint8_t dDeltaS = p_dGesamtStrecke / 20;

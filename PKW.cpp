@@ -145,18 +145,18 @@ void PKW::vSimulieren()
 {
 	if(dGlobaleZeit != p_dZeit)
 	{
-		if(!EpsilonEquals(p_dTankinhalt, 0))
+		if(!bEquals(p_dTankinhalt, 0))
 		{
-		double dDeltaT = dGlobaleZeit - p_dZeit;
-		p_dGeschwindigkeit = dGeschwindigkeit();
-		double dDeltaS = p_pVerhalten->dStrecke(this, dDeltaT);
-		p_dGesamtStrecke += dDeltaS;
-		p_dAbschnittStrecke += dDeltaS;
-		p_dTankinhalt -= p_dVerbrauch * dDeltaS / 100;
-		if(p_dTankinhalt <0) p_dTankinhalt = 0;
-		p_dGesamtVerbrauch += p_dVerbrauch * dDeltaS / 100;
-		p_dZeit = dGlobaleZeit;
-		p_dGesamtZeit = dGlobaleZeit;
+			double dDeltaT = dGlobaleZeit - p_dZeit;
+			p_dGeschwindigkeit = dGeschwindigkeit();
+			double dDeltaS = p_pVerhalten->dStrecke(this, dDeltaT);
+			p_dGesamtStrecke += dDeltaS;
+			p_dAbschnittStrecke += dDeltaS;
+			p_dTankinhalt -= p_dVerbrauch * dDeltaS / 100;
+			if(p_dTankinhalt < 0) p_dTankinhalt = 0;
+			p_dGesamtVerbrauch += p_dVerbrauch * dDeltaS / 100;
+			p_dZeit = dGlobaleZeit;
+			p_dGesamtZeit = dGlobaleZeit;
 
 		}
 	}
